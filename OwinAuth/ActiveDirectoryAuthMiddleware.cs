@@ -17,7 +17,7 @@ namespace OwinAuth
     public class ActiveDirectoryAuthMiddleware
         {
         AppFunc _next;
-
+        
         public ActiveDirectoryAuthMiddleware(AppFunc next)
             {
             _next = next;
@@ -47,10 +47,10 @@ namespace OwinAuth
                 }
             }
 
-        private bool ActiveDirectoryLogin(string userLogin, string userPassword)
+        public bool ActiveDirectoryLogin(string userLogin, string userPassword)
             {
             try {
-                LdapConnection lcon = new LdapConnection(new LdapDirectoryIdentifier((string)null, false, false));
+                LdapConnection lcon = new LdapConnection(new LdapDirectoryIdentifier("ldap://zflexldap.com",389, false, false));
                 NetworkCredential nc = new NetworkCredential(userLogin, userPassword, Environment.UserDomainName);
                 lcon.Credential = nc;
                 lcon.AuthType = AuthType.Negotiate;
