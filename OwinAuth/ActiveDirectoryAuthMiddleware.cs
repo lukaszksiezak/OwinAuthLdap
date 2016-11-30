@@ -26,10 +26,8 @@ namespace OwinAuth
         public async Task Invoke(IDictionary<string,Object> environment)
             {
             IOwinContext context = new OwinContext(environment);
-
-            var dumbUserName = "x";
-            var dumbUserPass = "xx";
-            if (ActiveDirectoryLogin(dumbUserName, dumbUserPass)) 
+            var debug = true;
+            if (ActiveDirectoryLogin("x", "x", debug)) 
                 {
                 // _next is only invoked if authentication succeeds:
                 context.Response.StatusCode = 200;
@@ -47,10 +45,12 @@ namespace OwinAuth
                 }
             }
 
-        public bool ActiveDirectoryLogin(string userLogin, string userPassword)
+        public bool ActiveDirectoryLogin(string userLogin, string userPassword, bool debug=false)
             {
             try {
-                LdapConnection lcon = new LdapConnection(new LdapDirectoryIdentifier("ldap://zflexldap.com",389, false, false));
+                if (debug) { return true; }
+
+                LdapConnection lcon = new LdapConnection(new LdapDirectoryIdentifier("ldap://ldap.forumsys.com", 389, false, false));
                 NetworkCredential nc = new NetworkCredential(userLogin, userPassword, Environment.UserDomainName);
                 lcon.Credential = nc;
                 lcon.AuthType = AuthType.Negotiate;
