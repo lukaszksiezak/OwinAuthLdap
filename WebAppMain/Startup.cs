@@ -5,6 +5,8 @@ using Owin;
 using System.Web;
 using System.IO;
 using Microsoft.Owin.Extensions;
+using System.Web.Mvc;
+using System.Web.Routing;
 
 [assembly: OwinStartup(typeof(WebAppMain.Startup))]
 
@@ -24,7 +26,9 @@ namespace WebAppMain
             });
             app.Run(context => {
                 PrintCurrentIntegratedPipelineStage(context, "3rd MW");
-                return context.Response.WriteAsync("Hello world");
+                AreaRegistration.RegisterAllAreas();
+                RouteConfig.RegisterRoutes(RouteTable.Routes);
+                return null;
             });
             }
         private void PrintCurrentIntegratedPipelineStage(IOwinContext context, string msg)
