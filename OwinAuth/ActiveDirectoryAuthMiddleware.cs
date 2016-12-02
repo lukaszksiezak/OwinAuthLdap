@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.DirectoryServices.Protocols;
 using System.Net;
-using System.DirectoryServices;
-using System.DirectoryServices.AccountManagement;
 
-namespace OwinAuth
+namespace OwinAuthorization
     {
     using Microsoft.Owin;
-    using System.Security;
     using AppFunc = Func<IDictionary<string, object>, Task>;
 
     public class ActiveDirectoryAuthMiddleware
-        {
+        {        
         AppFunc _next;
         
         public ActiveDirectoryAuthMiddleware(AppFunc next)
@@ -27,9 +22,7 @@ namespace OwinAuth
             {
             IOwinContext context = new OwinContext(environment);
 
-            var dumbUserName = "x";
-            var dumbUserPass = "xx";
-            if (ActiveDirectoryLogin(dumbUserName, dumbUserPass)) 
+            if (ActiveDirectoryLogin("x", "x")) 
                 {
                 // _next is only invoked if authentication succeeds:
                 context.Response.StatusCode = 200;
@@ -50,7 +43,7 @@ namespace OwinAuth
         public bool ActiveDirectoryLogin(string userLogin, string userPassword)
             {
             try {
-                LdapConnection lcon = new LdapConnection(new LdapDirectoryIdentifier("ldap://zflexldap.com",389, false, false));
+                LdapConnection lcon = new LdapConnection(new LdapDirectoryIdentifier((string)null, false, false));
                 NetworkCredential nc = new NetworkCredential(userLogin, userPassword, Environment.UserDomainName);
                 lcon.Credential = nc;
                 lcon.AuthType = AuthType.Negotiate;
