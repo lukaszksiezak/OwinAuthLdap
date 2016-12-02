@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.DirectoryServices.Protocols;
 using System.Net;
-using System.DirectoryServices;
-using System.DirectoryServices.AccountManagement;
 
-namespace OwinAuth
+namespace OwinAuthorization
     {
     using Microsoft.Owin;
-    using System.Security;
     using AppFunc = Func<IDictionary<string, object>, Task>;
 
     public class ActiveDirectoryAuthMiddleware
-        {
+        {        
         AppFunc _next;
         
         public ActiveDirectoryAuthMiddleware(AppFunc next)
@@ -48,9 +43,7 @@ namespace OwinAuth
         public bool ActiveDirectoryLogin(string userLogin, string userPassword, bool debug=false)
             {
             try {
-                if (debug) { return true; }
-
-                LdapConnection lcon = new LdapConnection(new LdapDirectoryIdentifier("ldap://ldap.forumsys.com", 389, false, false));
+                LdapConnection lcon = new LdapConnection(new LdapDirectoryIdentifier((string)null, false, false));
                 NetworkCredential nc = new NetworkCredential(userLogin, userPassword, Environment.UserDomainName);
                 lcon.Credential = nc;
                 lcon.AuthType = AuthType.Negotiate;

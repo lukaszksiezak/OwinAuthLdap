@@ -55,9 +55,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OwinAuth\OwinAuth.csproj">
+    <ProjectReference Include="..\OwinAuth\OwinAuthorization.csproj">
       <Project>{276CA264-4227-4195-88F9-B471CC3E9858}</Project>
-      <Name>OwinAuth</Name>
+      <Name>OwinAuthorization</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
