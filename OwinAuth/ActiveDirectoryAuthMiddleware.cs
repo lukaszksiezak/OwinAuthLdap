@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 using System.DirectoryServices.Protocols;
 using System.Net;
 
-namespace OwinAuthorization
+namespace OwinAuthentication
     {
     using Microsoft.Owin;
+    using System.IO;
     using AppFunc = Func<IDictionary<string, object>, Task>;
 
     public class ActiveDirectoryAuthMiddleware
@@ -21,6 +22,8 @@ namespace OwinAuthorization
         public async Task Invoke(IDictionary<string,Object> environment)
             {
             IOwinContext context = new OwinContext(environment);
+            context.Get<TextWriter>("host.TraceOutput").WriteLine("Currently in ActiveDirectory authentication middleware");
+
             var debug = true;
             if (ActiveDirectoryLogin("x", "x", debug)) 
                 {
@@ -42,6 +45,8 @@ namespace OwinAuthorization
 
         public bool ActiveDirectoryLogin(string userLogin, string userPassword, bool debug=false)
             {
+            if (debug == true) return true; //to cleanup 
+
             try {
                 LdapConnection lcon = new LdapConnection(new LdapDirectoryIdentifier((string)null, false, false));
                 NetworkCredential nc = new NetworkCredential(userLogin, userPassword, Environment.UserDomainName);

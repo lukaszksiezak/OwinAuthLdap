@@ -1,12 +1,7 @@
 ﻿using Owin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OwinAuthorization
-    {
+namespace OwinAuthentication
+{
     public static class AppBuilderExtensions
         {
             public static void UseActiveDirectoryAuthMiddleware(this IAppBuilder app)
