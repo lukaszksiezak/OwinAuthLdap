@@ -13,10 +13,14 @@ namespace OwinAuthentication
     public class ActiveDirectoryAuthMiddleware
         {        
         AppFunc _next;
-        
-        public ActiveDirectoryAuthMiddleware(AppFunc next)
+        private string userName;
+        private string userPass;    //todo change to secure string
+
+        public ActiveDirectoryAuthMiddleware(AppFunc next, string _userName, string _userPassword)
             {
             _next = next;
+            userName = _userName;
+            userPass = _userPassword;
             }
 
         public async Task Invoke(IDictionary<string,Object> environment)
