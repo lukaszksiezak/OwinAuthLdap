@@ -6,6 +6,7 @@ using MainWebAppWithOwinLogin.Models;
 using OwinAuthentication;
 using System.Web;
 using System.IO;
+using System.Net.Http;
 
 [assembly: OwinStartup(typeof(MainWebAppWithOwinLogin.App_Start.Startup))]
 
@@ -22,6 +23,18 @@ namespace MainWebAppWithOwinLogin.App_Start
 
             app.Use((context, next) => {
                 PrintCurrentIntegratedPipelineStage(context, "1st middleware");
+
+                context.Response.Redirect("Auth/Location");
+                                
+                return next.Invoke();
+            });
+            app.Use((context, next) => {
+                PrintCurrentIntegratedPipelineStage(context, "1stlololo middleware");
+
+                HttpClient client = new HttpClient();
+                client.BaseAddress = HttpContext.Current.Request.Url;
+                var response = client.GetAsync(client.BaseAddress + "Auth/Login").Result;
+
                 return next.Invoke();
             });
 

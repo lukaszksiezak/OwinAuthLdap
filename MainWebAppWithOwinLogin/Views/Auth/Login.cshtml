@@ -1,0 +1,22 @@
+﻿@model MainWebAppWithOwinLogin.Models.User
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+
+@Html.ValidationSummary(true)
+
+@using (Html.BeginForm())
+{
+
+        @Html.LabelFor(u => u.UserName)<br />
+        @Html.TextBoxFor(u => u.UserName)<br />
+        @Html.LabelFor(u => u.UserPassword)<br />
+        @Html.TextBoxFor(u => u.UserPassword)<br />
+
+        <p>
+            <button type="submit"> Log In</button>
+        </p>
+}
