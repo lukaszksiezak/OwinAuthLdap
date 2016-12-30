@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
+using Microsoft.Owin.Security.ActiveDirectory;
 using MainWebAppWithOwinLogin.Models;
-using OwinAuthentication;
 using System.Web;
 using System.IO;
 using System.Net.Http;
@@ -18,32 +18,13 @@ namespace MainWebAppWithOwinLogin.App_Start
 
         public void Configuration(IAppBuilder app)
         {
-            User.UserName = "lolname";
-            User.UserPassword = "lolpass";
-
-            app.Use((context, next) => {
-                PrintCurrentIntegratedPipelineStage(context, "1st middleware");
-
-                context.Response.Redirect("Auth/Location");
-                                
-                return next.Invoke();
-            });
-            app.Use((context, next) => {
-                PrintCurrentIntegratedPipelineStage(context, "1stlololo middleware");
-
-                HttpClient client = new HttpClient();
-                client.BaseAddress = HttpContext.Current.Request.Url;
-                var response = client.GetAsync(client.BaseAddress + "Auth/Login").Result;
-
-                return next.Invoke();
-            });
-
-            app.UseActiveDirectoryAuthMiddleware(User.UserName, User.UserPassword);
-
             app.Use((context, next) => {
                 PrintCurrentIntegratedPipelineStage(context, "1st middleware");
                 return next.Invoke();
             });
+
+            app.UseWindowsAzureActiveDirectoryBearerAuthentication(new WindowsAzureActiveDirectoryBearerAuthenticationOptions());
+
             app.Use((context, next) => {
                 PrintCurrentIntegratedPipelineStage(context, "2nd MW");
                 return next.Invoke();
